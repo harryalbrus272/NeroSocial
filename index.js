@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 8000; //default port is 80
-app.listen(port, err => {
+const port = 800; //default port is 80
+// use express router 
+app.use('/', require('./routes'));
+
+app.listen(port, function(err) {
     if(err){
         console.log('Error', err);
         /* Second way */
