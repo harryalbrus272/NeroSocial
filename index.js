@@ -3,7 +3,9 @@ const app = express();
 const port = 800; //default port is 80
 // use express router 
 app.use('/', require('./routes'));
-
+/*Next two lines tor setting up view engine*/
+app.set('view engine' , 'ejs');
+app.set('views', './views'); //you can also use array in views
 app.listen(port, function(err) {
     if(err){
         console.log('Error', err);

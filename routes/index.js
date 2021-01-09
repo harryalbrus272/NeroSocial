@@ -3,9 +3,11 @@ const express = require('express');
 
 const router  = express.Router();
 const homeController = require('../controllers/home_controller');
-const aBar = require('../controllers/home_controller');
 console.log('router loaded');
 
 router.get('/', homeController.home);
-router.get('/actionbar', aBar.actionBar)
+router.get('/actionbar', homeController.actionBar);
+router.use('/users',require('./users'));
+router.use('/messenger',require('./messenger'));
+router.use('/channel',require('./channels'));
 module.exports = router;
