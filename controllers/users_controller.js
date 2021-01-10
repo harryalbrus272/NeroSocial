@@ -1,7 +1,10 @@
 module.exports.profile = function(req,res){
-    console.log("second");
-    res.end('<h1>User Profile</h1>');
+    res.render('users',{
+        title: "Profile page"
+    });
 }
 module.exports.otherdetails = function(req,res){
-    res.end('<h1>Other Details</h1>');
+    res.render('users',{
+        title: "Other Details"
+    });
 }

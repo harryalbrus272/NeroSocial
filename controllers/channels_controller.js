@@ -1,3 +1,5 @@
 module.exports.channel=function(req,res){
-    return res.end('<h1>Channels here</h1>');
+    return res.render('users',{
+        title:"Channels"
+    });
 }

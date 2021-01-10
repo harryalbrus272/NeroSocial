@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const port = 800; //default port is 80
+const expressLayouts = require('express-ejs-layouts');
+app.use(express.static('./assets'));
+//layouts are to be rendered before routes and views
+app.use(expressLayouts);
 // use express router 
 app.use('/', require('./routes'));
 /*Next two lines tor setting up view engine*/
