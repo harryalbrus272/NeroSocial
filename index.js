@@ -1,9 +1,11 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 800; //default port is 80
 const expressLayouts = require('express-ejs-layouts');
 //calling databse in the next line
-const db =require('./config/mongoose');
+const db = require('./config/mongoose');
+app.use(cookieParser());
 app.use(express.static('./assets'));
 //layouts are to be rendered before routes and views
 app.use(expressLayouts);
