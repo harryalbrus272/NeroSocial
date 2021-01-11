@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     }
 },{
    timestamps : true 
-    /* When wa the user created and updated */
+    /* When was the user created and updated */
     //mongoose update these timestamp
 });
 //telling mongo that this is a model
