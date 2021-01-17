@@ -11,6 +11,20 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 //mongo-store to put prevent the sign-out on every server restart
 const MongoStore = require('connect-mongo')(session); //sessio information in database
+//importing sass to use it in the project
+const sassMiddleware = require('node-sass-middleware');
+// these saas files must be compiled before making any request to the server
+app.use(sassMiddleware({
+   src: './assets/scss',
+   dest: './assets/css',
+   //messages when server is starting
+   debug: true,
+   //messages in single or multiple lines . compressed is the other option
+   outputStyle : 'extended',
+   //where should it look for the css files
+   prefix:'/css'
+}));
+
 app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(express.static('./assets'));
