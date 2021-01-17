@@ -9,6 +9,8 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
+//mongo-store to put prevent the sign-out on every server restart
+const MongoStore = require('connect-mongo')(session); //sessio information in database
 app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(express.static('./assets'));
@@ -20,18 +22,32 @@ app.set('layout extractScripts' ,true);
 /*Next two lines tor setting up view engine*/
 app.set('view engine' , 'ejs');
 app.set('views', './views'); //you can also use array in views
+//mongo store is used to store the session cookie in the DB
+app
 app.use(session({
     name: 'NeroSocial',
     //change the secret key before deployment in production
     secret : 'blahsomething',
-    saveUninitialized : false,
-    resave : false,
+    saveUninitialized : false, //not logged-in, then set session cookie to false
+    resave : false, //do not want save it again and again. If it is there, then the cookie is not touched
     cookie : {
         maxAge: (1000*60*100)
-    }
+    },
+    store: new MongoStore(
+        {
+            mongooseConnection: db,
+            autoRemove: 'disabled'
+        },
+        function(err){
+            console.log(err || 'connect-mongodb setup ok');
+        }
+    )
+
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+//check if session cookie is there or not
+app.use(passport.setAuthenticatedUser);
 // use express router 
 app.use('/', require('./routes'));
 app.listen(port, function(err) {
