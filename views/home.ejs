@@ -1,3 +1,21 @@
 
 <h1>This is NeroSocial platform with page title<%= title %> </h1>
  
+<section id="feed-posts">
+    <h4>Posts</h4>
+    <form action="/posts/create" is="new-post-form" method="POST">
+        <textarea name="content" cols="30" rows="3" placeholder="Type here...."></textarea>
+        <input type="submit" value="Post">
+    </form>
+    <!--Displaying the posts-->
+    <div id="post-list-container">
+        <ul>
+            <% for (post of posts){ %>
+                <li><%= post.content %> </li>
+                <p>
+                    <%= post.user.name %> 
+                </p>
+            <% } %>      
+        </ul>
+    </div>
+</section>
