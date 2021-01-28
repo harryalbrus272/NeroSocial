@@ -17,7 +17,7 @@ module.exports.home = function(req, res){
     Post.find({}).populate('user').exec(function(err,posts){
         return res.render('home',{
             title: "NeroSocial | Home",
-            //passing on all he posts
+            //passing on all the posts
             posts: posts
         });
     });    

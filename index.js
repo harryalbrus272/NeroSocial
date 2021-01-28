@@ -10,7 +10,7 @@ const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 //mongo-store to put prevent the sign-out on every server restart
-const MongoStore = require('connect-mongo')(session); //sessio information in database
+const MongoStore = require('connect-mongo')(session); //session information in database
 //importing sass to use it in the project
 const sassMiddleware = require('node-sass-middleware');
 // these saas files must be compiled before making any request to the server
