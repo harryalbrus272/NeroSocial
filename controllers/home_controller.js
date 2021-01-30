@@ -1,6 +1,7 @@
 const { populate } = require('../models/post');
 const Post = require('../models/post');
 const Posts = require('../models/post');
+const User = require('../models/users');
 module.exports.home = function(req, res){
     //console.log(req.cookies);
     //changing cookie in the response
@@ -27,11 +28,15 @@ module.exports.home = function(req, res){
         if(err){
             console.log("Error occured",err);
         }
-        return res.render('home',{
-            title: "NeroSocial | Home",
-            //passing on all the posts
-            posts: posts
+        User.find({}, (err,users)=>{
+            return res.render('home',{
+                title: "NeroSocial | Home",
+                //passing on all the posts
+                posts: posts,
+                all_users : users
+            });
         });
+       
     });    
 }
 module.exports.actionBar = function(req,res){
