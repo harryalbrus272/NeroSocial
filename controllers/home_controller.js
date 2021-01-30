@@ -14,7 +14,19 @@ module.exports.home = function(req, res){
         });
     });*/
     //prepopulating the database of each user for each posts
-    Post.find({}).populate('user').exec(function(err,posts){
+    Post.find({})
+    .populate('user')
+    .populate({
+        path : 'comments',
+        populate: {
+            path : 'user'
+        }
+
+    })
+    .exec(function(err,posts){
+        if(err){
+            console.log("Error occured",err);
+        }
         return res.render('home',{
             title: "NeroSocial | Home",
             //passing on all the posts
