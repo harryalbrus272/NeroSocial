@@ -14,6 +14,11 @@ const MongoStore = require('connect-mongo')(session); //session information in d
 //importing sass to use it in the project
 const sassMiddleware = require('node-sass-middleware');
 // these saas files must be compiled before making any request to the server
+
+const flash = require('connect-flash');
+
+
+
 app.use(sassMiddleware({
    src: './assets/scss',
    dest: './assets/css',
@@ -25,7 +30,7 @@ app.use(sassMiddleware({
    prefix:'/css'
 }));
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended:true }));
 app.use(cookieParser());
 app.use(express.static('./assets'));
 //layouts are to be rendered before routes and views
@@ -63,6 +68,8 @@ app.use(passport.session());
 //check if session cookie is there or not
 app.use(passport.setAuthenticatedUser);
 // use express router 
+
+app.use(flash());
 app.use('/', require('./routes'));
 app.listen(port, function(err) {
     if(err){
