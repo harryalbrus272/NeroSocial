@@ -67,10 +67,13 @@ module.exports.create = async function (req, res) {
 }
 //get the sign-in session data
 module.exports.createSession = function (req, res) {
+    req.flash('success', 'Logged In Succesfully');
     return res.redirect('/');
 }
-//
+//logout on the sign-out session data
 module.exports.destroySession = function (req, res) {
     req.logout();
+    req.flash('success', 'Logged out');
+    //now you can either pass the flash message in the locals of the file OR another way is through a middleware
     return res.redirect('/');
 }

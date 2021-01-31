@@ -6,17 +6,18 @@ const User = require('../models/users');
 //passport should use this strategy
 passport.use(new LocalStrategy({
     //unique email from Schema
-    usernameField:'email'
+    usernameField:'email',
+    passReqToCallback: true
 }, //done on the basis of what is happenning inside the code
-function(email, password, done){
+function(req, email, password, done){
     //find a user and establish the identity
     User.findOne({email:email}, function(err, user){
         if(err){
-            console.log('Error in finding user --> passport');
+            req.flash('error',err);
             return done(err);
         }
         if(!user || user.password != password){
-            console.log('Invalid Username/ Password');
+            req.flash('error','Invalid Username/Password');
             return done(null, false);
             //false because authentication has not been done
         }

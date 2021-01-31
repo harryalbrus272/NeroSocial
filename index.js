@@ -16,7 +16,7 @@ const sassMiddleware = require('node-sass-middleware');
 // these saas files must be compiled before making any request to the server
 
 const flash = require('connect-flash');
-
+const customMware = require('./config/middleware');
 
 
 app.use(sassMiddleware({
@@ -42,7 +42,6 @@ app.set('layout extractScripts' ,true);
 app.set('view engine' , 'ejs');
 app.set('views', './views'); //you can also use array in views
 //mongo store is used to store the session cookie in the DB
-app
 app.use(session({
     name: 'NeroSocial',
     //change the secret key before deployment in production
@@ -70,6 +69,7 @@ app.use(passport.setAuthenticatedUser);
 // use express router 
 
 app.use(flash());
+app.use(customMware.setFlash);
 app.use('/', require('./routes'));
 app.listen(port, function(err) {
     if(err){
