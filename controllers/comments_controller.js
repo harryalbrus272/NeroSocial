@@ -16,6 +16,17 @@ module.exports.create = async function (req, res) {
             post.comments.push(comment); //automatically fetch the id and push it
             post.save();//before - only in ram . after save- it gets permanently saved
 
+            if(req.xhr){
+                /*comment = await comment.populate('user', 'name').execPopulate();*/
+                return res.status(200).json({
+                    data:{
+                        post:comment,
+                    }, 
+                    name: req.user.name,
+                    message:"Comment created!"
+                });
+            }
+
             res.redirect('/');
         }
     } catch (err) {
@@ -35,6 +46,15 @@ module.exports.destroy = async function (req, res) {
             comment.remove();
 
             let post = Post.findByIdAndUpdate(postID, { $pull: { comments: req.params.id } });
+            if(req.xhr){
+                return res.status(200).json({
+                    data:{
+                        post_id: req.params.id
+                    },
+                    message: "Post Deleted"
+                });
+
+            }
 
             return res.redirect('back');
         } else {
