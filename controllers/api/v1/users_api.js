@@ -8,14 +8,14 @@ module.exports.createSession = async function(req, res){
         let user = await User.findOne({email:req.body.email});
 
         if(!user || user.password != req.body.password){
-            return red.status(422).json({
+            return res.status(422).json({
                 message:"Invalid username or password"
             });
         }
         return res.status(200).json({
-            message:' Sign n successful, here is your token. Please keep it safe!',
+            message:' Sign in successful, here is your token. Please keep it safe!',
             data:{
-                token: jwt.sign(user.toJSON(), 'NeroSocial', {expiresIn: '10000'}),
+                token: jwt.sign(user.toJSON(), 'NeroSocial', {expiresIn: '100000'}),
             }
         });        
     } catch (error) {
