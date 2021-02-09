@@ -1,6 +1,6 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
-
+const commentsMailer = require('../mailers/comments_mailer');
 module.exports.create = async function (req, res) {
     //first find the posts id and then add comments to it
     let post = await Post.findById(req.body.post);
@@ -15,9 +15,12 @@ module.exports.create = async function (req, res) {
 
             post.comments.push(comment); //automatically fetch the id and push it
             post.save();//before - only in ram . after save- it gets permanently saved
-
+            comment = await comment.populate('user','name email').execPopulate();
+            //sending mail
+            commentsMailer.newComment(comment);
             if(req.xhr){
                 /*comment = await comment.populate('user', 'name').execPopulate();*/
+
                 return res.status(200).json({
                     data:{
                         post:comment,
