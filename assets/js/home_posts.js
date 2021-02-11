@@ -13,6 +13,13 @@
                     let newPost = newPostDom(data);
                     $('#post-list-container>ul').prepend(newPost);
                     deletePost($(' .delete-post-button', newPost));
+
+                    //call the create comment method
+                    createComment(data.data.post._id)
+
+                    // CHANGE :: enable the functionality of the toggle like button on the new post
+                    new ToggleLike($(' .toggle-like-button', newPost));
+
                     new Noty({
                         theme: 'relax',
                         text: "Post published!",

@@ -1,5 +1,6 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const Like = require('../models/like');
 const commentsMailer = require('../mailers/comments_mailer');
 const commentEmailWorker = require('../workers/comment_email_worker');
 const queue = require('../config/kue');
@@ -58,6 +59,10 @@ module.exports.destroy = async function (req, res) {
             comment.remove();
 
             let post = Post.findByIdAndUpdate(postID, { $pull: { comments: req.params.id } });
+            
+            await Like.deleteMany({likeable: comment._id, onModel: 'Comment'});
+            
+            //send the comment id which was deleted back to the views
             if(req.xhr){
                 return res.status(200).json({
                     data:{
@@ -68,8 +73,11 @@ module.exports.destroy = async function (req, res) {
 
             }
 
+            req.flash('success', 'Comment deleted!');
+
             return res.redirect('back');
         } else {
+            req.flash('error', 'Unauthorized Access');
             return res.redirect('back');
         }
     } catch(err) {
