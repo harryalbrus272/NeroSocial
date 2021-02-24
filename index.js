@@ -1,4 +1,5 @@
 const express = require('express');
+const env = require('./config/environment');
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = 800; //default port is 80
@@ -26,10 +27,11 @@ const chatServer = require('http').Server(app);
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 chatServer.listen(5050);
 console.log("chat server on port 5050");
+const path = require('path');
 
 app.use(sassMiddleware({
-   src: './assets/scss',
-   dest: './assets/css',
+   src: path.join(__dirname, env.asset_path,'scss'),
+   dest: path.join(__dirname, env.asset_path,'css'),
    //messages when server is starting
    debug: true,
    //messages in single or multiple lines . compressed is the other option
@@ -40,7 +42,7 @@ app.use(sassMiddleware({
 
 app.use(express.urlencoded({ extended:true }));
 app.use(cookieParser());
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 //layouts are to be rendered before routes and views
 // make the uploads path available to the browser
 app.use('/uploads', express.static(__dirname + '/uploads'));
@@ -55,7 +57,7 @@ app.set('views', './views'); //you can also use array in views
 app.use(session({
     name: 'NeroSocial',
     //change the secret key before deployment in production
-    secret : 'blahsomething',
+    secret : env.session_cookie_key ,
     saveUninitialized : false, //not logged-in, then set session cookie to false
     resave : false, //do not want save it again and again. If it is there, then the cookie is not touched
     cookie : {

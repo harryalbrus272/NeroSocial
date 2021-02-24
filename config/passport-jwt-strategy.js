@@ -1,5 +1,6 @@
 const passport = require('passport');
 const JWTStrategy = require('passport-jwt').Strategy;
+const env = require('./environment');
 //extract jwt from the header
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
@@ -8,7 +9,7 @@ const User = require('../models/users');
 let opts = {
     //bearer token 
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'NeroSocial'
+    secretOrKey: env.jwt_secret
 
 }
 

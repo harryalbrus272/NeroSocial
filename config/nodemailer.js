@@ -1,19 +1,10 @@
 const nodemailer = require('nodemailer');
+const env = require('./environment');
 const { getMaxListeners } = require('../models/users');
 const ejs =require('ejs');
 const path =require('path');
 //Sends the email. How this communication is going to take place
-let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host:'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'shashwatksingh.27',
-        pass: 'Sks79919072'
-    }
-
-});
+let transporter = nodemailer.createTransport(env.smtp);
 
 //template file placed in views folder
 let renderTemplate = (data, relativePath) => {
