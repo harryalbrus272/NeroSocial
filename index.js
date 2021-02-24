@@ -20,6 +20,12 @@ const sassMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
 
+//setup the server files for the sockets.io
+
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(5050);
+console.log("chat server on port 5050");
 
 app.use(sassMiddleware({
    src: './assets/scss',
